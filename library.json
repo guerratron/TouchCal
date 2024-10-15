@@ -1,0 +1,14 @@
+{
+  "name": "TouchCal",
+  "version": "1.0",
+  "keywords": "touch, touchscreen, xpt2046, tft, tft_espi, display, lcd, calibration",
+  "description": "TouchCal is a (Arduino) Library to touchscreen calibration. Based on 'XPT2046_Touchscreen', supports three working modes. It has utilities for the TouchScreen such as touch calibration, checking valid touch based on pressure, Lissajous figures to check the symmetry of the screen, and even 'Dark-Mode' without display.. It is based on the examples from the 'TFT_eSPI' library and uses 'XPT2046_Touchscreen'. GNU LGPL v2.1.",
+  "exclude": "doc",
+  "repository":
+  {
+    "type": "github",
+    "url": "https://github.com/guerratron/TouchCal"
+  },
+  "frameworks": "arduino",
+  "platforms": "*"
+}

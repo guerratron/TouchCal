@@ -1,0 +1,30 @@
+#######################################
+# Syntax Coloring Map For TouchCal
+#######################################
+
+#######################################
+# Library (KEYWORD3)
+#######################################
+
+TouchCal	KEYWORD3
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+tc          KEYWORD1
+TouchCal	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+calibration	        KEYWORD2
+setRotation	        KEYWORD2
+isTouch             KEYWORD2
+printToPin	        KEYWORD2
+drawLissajous	    KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+TC_ROTATION    LITERAL1
+TC_PARS        LITERAL1

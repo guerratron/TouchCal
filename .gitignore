@@ -1,0 +1,13 @@
+# Editor files
+*.swp
+*~
+
+# Objects
+*.o
+*.a
+*.so
+
+# Windows trash
+*.thumbs
+Thumbs.db
+*/*.db
