@@ -5,7 +5,7 @@
 > By:  Juan José Guerra Haba - <dinertron@gmail.com> &emsp;-&emsp; Oct, 2024  
 > Web:     [GrTron.es][authorWeb] , [GuerraTron.github][authorWeb2]  
 > License: Apache + Open GPL v.3. Keep credit, please.   
-> Versión: 1.0.1  
+> Versión: 1.1  
 > Proyect:    Touch-Screen C++ &emsp; Package: TouchCal.h &emsp; Namespace: tc  
 > 
 > ----------------------------------------------------------------------------------------------------  
@@ -96,7 +96,7 @@
     }
 </style>
 
-# ![TouchCal logo](./extras/logo.png "logo") TouchCal v1.0.1 <span class="small">by [GuerraTron-24][authorEmail]</span>
+# ![TouchCal logo](./extras/logo.png "logo") TouchCal v1.1 <span class="small">by [GuerraTron-24][authorEmail]</span>
 
 ## 📋-Intro
 
@@ -178,10 +178,10 @@ Aunque NO tiene DEPENDENCIA DIRECTA con *"TFT_eSPI"* (se puede trabajar sin esa 
 ### 🌍-Fuentes
 [TFT_eSPI](https://github.com/Bodmer/TFT_eSPI) de *Bodmer*,  
 [XPT2046_Touchscreen](https://github.com/PaulStoffregen/XPT2046_Touchscreen) de *Paul Stoffregen*,  
-https://forum.arduino.cc/, ..
+<https://forum.arduino.cc/>, ..
 
 ### 🎁-Agradecimientos
-Muchas gracias a todos los que hacen código libre por desarrollar herramientas superútiles para todos; esta vez también a Microsoft por su <abbr title="Visual Studio Code">VSC</abbr>, sin esta herramienta habría sido imposible la creación de la API  
+Muchas gracias a *Bodmer*, *Paul Stoffregen*, y a todos los que hacen código libre por desarrollar herramientas superútiles para todos; esta vez también a Microsoft por su <abbr title="Visual Studio Code">VSC</abbr>, sin esta herramienta habría sido imposible la creación de la API  
 .. y en general a todo el mundo altruista que genera código y lo dispone open-source. También al mundo de **Arduino** y el open-hardware.  
 
 ## ✒️-Sign:

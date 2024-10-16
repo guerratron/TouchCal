@@ -1,13 +1,15 @@
 /*
-TouchCal Mini-biblioteca para pantallas táctiles SPI (XPT2046_Touchscreen) - by GuerraTron24
+TouchCal v1.1 Mini-biblioteca para pantallas táctiles SPI (XPT2046_Touchscreen) - by GuerraTron24
 ---------------------
 
  Utilidades para la TouchScreen como la calibración de la pantalla, comprobar toque válido en función de la presión, 
  figuras lissajous para comprobar la simetría de la screen, e incluso "Modo-Oscuro" sin display ..
  Basado en los ejemplos de la librería "TFT_eSPI" de bodmer; utiliza "XPT2046_Touchscreen" de Paul Stoffregen.
- [QUE PEDAZO UTILIDADES]. Aunque es más visual y estético la utilización de un display, en realidad existen proyectos 
- donde no son imprescindibles. Por eso esta biblioteca NO tiene DEPENDENCIA DIRECTA con "TFT_eSPI", se puede trabajar 
- sin esa "maravillosa utilidad" (pero sí con "XPT2046_Touchscreen"). 
+ [QUE PEDAZO UTILIDADES].  
+ 
+ Aunque es más visual y estético la utilización de un display, en realidad existen proyectos donde no son imprescindibles. 
+ Por eso esta biblioteca NO tiene DEPENDENCIA DIRECTA con "TFT_eSPI", y se puede trabajar sin esa "maravillosa utilidad" 
+ (pero sí con "XPT2046_Touchscreen"). 
 
  Esta mini-librería surge de la necesidad de obtener parámetros de configuración de la pantalla de toque a raiz de 
  algunos experimentos en los que me fallaba la función original TFT_eSPI::calibrateTouch(..), se quedaba colgado el 
@@ -18,7 +20,7 @@ TouchCal Mini-biblioteca para pantallas táctiles SPI (XPT2046_Touchscreen) - by
  seguramente la inhiba.
 
  La función principal sería "calibration(..)" que admite como parámetros (PUNTEROS) la touchscreen y la screen (si está disponible), 
- además de colores y tamaños para las flechas de las esquinas (al igual que "TFT_eSPI::calibrateTouch(..)"). 
+ además de colores y tamaños para las flechas de las esquinas (al igual que "TFT_eSPI::calibrateTouch(..)").  
  La función realiza las mismas comprobaciones que la original más algunos añadidos extra, pero se basa en el objeto "*touchscreen" 
  pasado como parámetro y que se supone que ya se encuentra iniciado para detectar los toques, en vez del objeto por defecto que 
  ataca la librería original.  
@@ -33,22 +35,24 @@ TouchCal Mini-biblioteca para pantallas táctiles SPI (XPT2046_Touchscreen) - by
  Lo que sí necesita son las dimensiones de la pantalla: "TFT_HEIGHT" y "TFT_WIDTH", y los colores predefinidos, además de la rotación 
  "TC_ROTATION"; en función de esta rotación los valores de "width" y "height" se invertirán.
  
- FULL-MODE:
+ GRAPHICS-MODE: (TFT + Serial)
+ Es el modo por defecto (si se encuentra incluida la biblioteca TFT_eSPI) Con TFT y Serial.
  Utilizar por ejemplo: ``` tc::calibration(&ts, &tft); ```
 
  Un uso normal sería su utilización en el "setup" después de haber inicializado el resto de librerías "Serial, TFT_eSPI, 
  XPT2046_Touchscreen" necesarias; o por ejemplo también en un "handler" de algún botón de acción.
 
- DARK-MODE:
- Oro uso simplificado pordría ser utilizando únicamente la "touchscreen" (sin screen) para lo cual habría que definir 
- previamente algunas definiciones utilizadas por la librería "TFT_eSPI" (dimensiones y colores), entonces se reduciría a:
- ``` tc::calibration(&ts); ```
+ DARK-MODE: (Serial only)
+ Oro uso simplificado pordría ser utilizando únicamente la "touchscreen" (sin screen) para lo cual habría que definir previamente TC_DARK_MODE, 
+ y las dimensiones correctas de la Touch en TFT_WIDTH y TFT_HEIGHT.
+ entonces se reduciría a: ``` tc::calibration(&ts); ```
  
- PIN-MODE:
+ PIN-MODE: (sin TFT, ni Serial)
  Otro modo de trabajo (EXTREMO), sin display ni puerto Serial, podría implementarse informando a través de un LED conectado al pin definido en 
  "PIN_PRINT", por defecto el 26 en ESP32. Esta forma es muy arcaica pero serviría para identificar los toques en las esquinas en función 
  del parpadeo del LED (corner1 = 1, corner2 = 2, ..) y sólo necesitaríamos la parte táctil de la pantalla. A partir de aquí ya estaría 
- calibrada la táctil, pero claro, cada vez que iniciemos habría que recalibrarla de nuevo.
+ calibrada la táctil, pero claro, cada vez que iniciemos habría que recalibrarla de nuevo.  
+ Para este modo establecer TC_PIN_MODE y un pin correcto en PIN_PRINT con su circuitería de LED asociada.
 
  ATENCIÓN: Definir la rotación a utilizar con la screen y la touch en "TC_ROTATION" (del 0 al 3)
 
@@ -62,17 +66,49 @@ TouchCal Mini-biblioteca para pantallas táctiles SPI (XPT2046_Touchscreen) - by
 #define _TC1_H
 
 #include <Arduino.h>
-/* la siguiente definición es sólo para que el IDE no me dé problemas, podría eliminarse porque en 
- * realidad es una tontería: "Sólo incluye la librería si realmente ya se encuentra definida"
-//#ifdef _TFT_eSPIH_
-#ifdef _TFT_eSPIH_
-#include <TFT_eSPI.h>
-#endif */
+
 /* esta otra SI es obligatoria (DEPENDENCIA) */
 #ifndef XPT2046_Touchscreen
 //#error "TouchCal NECESITA XPT2046_Touchscreen, POR FAVOR INCLUIR LA BIBLIOTECA PRIMERO."
 #include <XPT2046_Touchscreen.h>
 #endif
+
+
+/* ============================= */
+/* ==== BEGIN: CONFIGURACION === */
+
+/* ACTIVAR / DESACTIVAR los distintos modos: DARK-MODE, PIN-MODE. (NO TIENE PORQUÉ SER AQUÍ, PUEDE HACERSE EN EL SKETCH DIRÉCTAMENTE)
+ * - TC_DARK_MODE Trabaja sin gráficos, sólo con el puerto Serial
+ * - TC_PIN_MODE necesita un numero de pin en PIN_PRINT
+ * 
+ * Por defecto (con la librería incluida TFT_eSPI) se pondría en GRAPHICS-MODE.
+ * Si no se detecta la librería TFT_eSPI se activa automáticamente DARK-MODE.
+ * De cualquier forma mientras exista "Serial" se intentará mostrar información mínima en el Monitor.
+ * Si se activa PIN-MODE establecer un pin de salida para LED correcto en PIN_PRINT. */
+
+//#define TC_DARK_MODE
+//#define TC_PIN_MODE
+
+/* GRAPHICS-MODE (por defecto) NECESITA TFT_eSPI. 
+ * La 'include-guard' "_TFT_eSPIH_" controla que la librería TFT_eSPI se encuentre incluida, pero esto 
+ * habría que controlarlo y actualizarlo aquí ya que puede cambiar en sucesivas versiones de la librería. */
+
+/* DARK-MODE AUTOMÁTICO SI NO SE DETECTA LA LIBRERÍA TFT_eSPI */
+#ifndef TC_DARK_MODE
+#ifndef _TFT_eSPIH_
+#define TC_DARK_MODE
+#endif /* _TFT_eSPIH_ */
+#endif /* TC_DARK_MODE */
+
+/* Activar si se desea señal visual en un pin, por ejemplo si no se tiene "TFT_eSPI" ni "Serial". */
+#ifdef TC_PIN_MODE
+/* Indicar en qué pin de salida está el LED */
+#define PIN_PRINT 26
+#endif
+
+/* ==== END: CONFIGURACION ==== */
+/* ============================= */
+
 
 /* Estas variables existirán a través de la biblioteca "TFT_eSPI". Pero por si acaso se dan valores por 
  * defecto para una pantalla SPI de 240X320 */
@@ -94,8 +130,6 @@ TouchCal Mini-biblioteca para pantallas táctiles SPI (XPT2046_Touchscreen) - by
 #define TC_PRE_Z 600
 /* ---------------- */
 
-/* Activar si se desea señal visual en un pin, por ejemplo si no se tiene "TFT_eSPI" ni "Serial". */
-#define PIN_PRINT 26
 
 
 /* ========== */
@@ -168,31 +202,36 @@ namespace tc{
     * Valores del 0 al 3 */
   void setRotation(uint8_t rotation);
 
+#ifdef TC_PIN_MODE
     /** Hace parpadear un led como información de la esquina tocada. */
   void printToPin(uint8_t corner = 0, bool enabled = false);
+#endif /* TC_PIN_MODE */
 
-#ifdef _TFT_eSPIH_
+#ifndef TC_DARK_MODE
   /***************************************************************************************
   ** Function name:           calibration Touch calibration
   ** Description:             generates calibration parameters for touchscreen.
   * @param ts {XPT2046_Touchscreen*} La touchscreen (puntero) de la que obtener las coordenadas.
   * @param tft {TFT_eSPI*} La tft (puntero) en la que dibujar. 
+  * @param color_fg {uint32_t} El color de primer plano de la flechita
+  * @param color_bg {uint32_t} El color de fondo de la flechita
+  * @param color_fg {uint8_t} El tamaño de la flechita
   ***************************************************************************************/
   void calibration(XPT2046_Touchscreen *ts, TFT_eSPI *tft, const uint32_t color_fg = TFT_MAGENTA, const uint32_t color_bg = TFT_BLACK, const uint8_t size = 10);
+  
+  /** Pequeña utilidad para visualizar curvas de Lissajous en función de las coordenadas de toque.  
+  * Puede obtenerse una ligera idea de la simetría de la pantalla a través de la visualización de las imágenes. */
+  void drawLissajous(XPT2046_Touchscreen *ts, TFT_eSPI *tft) ;
+
 #else
+
   /***************************************************************************************
   ** Function name:           calibration Touch calibration
   ** Description:             generates calibration parameters for touchscreen.
   * @param ts {XPT2046_Touchscreen*} La touchscreen (puntero) de la que obtener las coordenadas.
   ***************************************************************************************/
   void calibration(XPT2046_Touchscreen *ts);
-#endif /* TFT_eSPI */
-
-#ifdef _TFT_eSPIH_
-  /** Pequeña utilidad para visualizar curvas de Lissajous en función de las coordenadas de toque.  
-  * Puede obtenerse una ligera idea de la simetría de la pantalla a través de la visualización de las imágenes. */
-  void drawLissajous(XPT2046_Touchscreen *ts, TFT_eSPI *tft) ;
-#endif /* TFT_eSPI */
+#endif /* TC_DARK_MODE */
 
 }  /* END: "TC" NAMESPACE */
 
@@ -301,6 +340,7 @@ void tc::setRotation(uint8_t rotation){
   }
 }
 
+#ifdef TC_PIN_MODE
 void tc::printToPin(uint8_t corner, bool enabled){
 #ifdef PIN_PRINT
   //Serial.print(corner);
@@ -315,12 +355,14 @@ void tc::printToPin(uint8_t corner, bool enabled){
   if(enabled){ digitalWrite(PIN_PRINT, HIGH); }
 #endif /* Pin-Print */
 }
+#endif /* TC_PIN_MODE */
 
-#ifdef _TFT_eSPIH_
-void tc::calibration(XPT2046_Touchscreen *ts, TFT_eSPI *tft, const uint32_t color_fg, const uint32_t color_bg, const uint8_t size){
+#ifndef TC_DARK_MODE
+    void tc::calibration(XPT2046_Touchscreen *ts, TFT_eSPI *tft, const uint32_t color_fg, const uint32_t color_bg, const uint8_t size)
 #else
-void tc::calibration(XPT2046_Touchscreen *ts){
-#endif /* TFT_eSPI */
+    void tc::calibration(XPT2046_Touchscreen *ts)
+#endif /* TC_DARK_MODE */
+{
   //uint16_t tc::currH = tft->height() - 1, tc::currW = tft->width() - 1;
   Serial.println("Touch-Calibrate..");
   tc::setRotation(tc::TC_ROTATION); /* intercambia width y height en base a la rotación. */
@@ -329,18 +371,21 @@ void tc::calibration(XPT2046_Touchscreen *ts){
   uint16_t values[] = {0,0,0,0,0,0,0,0};
   uint16_t x_tmp=0, y_tmp=0;
 
-#ifdef _TFT_eSPIH_
+#ifndef TC_DARK_MODE
+if(tft){
   tft->setCursor(0, 0);
   // Clear the screen
   tft->fillScreen(TFT_BLACK);
   tft->setTextFont(2);
   tft->setTextSize(2);
   tft->setTextColor(TFT_WHITE, TFT_BLACK);
-  tft->drawCentreString("Touch screen to test!", tc::currW/2, tc::currH/2, 2);
-#endif /* TFT_eSPI */
+  tft->drawCentreString("Touch calibration!", tc::currW/2, tc::currH/2, 2);
+}
+#endif /* TC_DARK_MODE */
   uint8_t i;
   for(i = 0; i<4; i++){
-#ifdef _TFT_eSPIH_
+#ifndef TC_DARK_MODE
+if(tft){
     tft->fillRect(0, 0, size+1, size+1, color_bg);
     tft->fillRect(0, tc::currH-size-1, size+1, size+1, color_bg);
     tft->fillRect(tc::currW-size-1, 0, size+1, size+1, color_bg);
@@ -370,7 +415,8 @@ void tc::calibration(XPT2046_Touchscreen *ts){
         tft->drawLine(tc::currW-1-size, tc::currH-1, tc::currW-1, tc::currH-1, color_fg);
         break;
       }
-#endif /* TFT_eSPI */
+}
+#endif /* TC_DARK_MODE */
     // user has to get the chance to release
     if(i>0) delay(1000);
 
@@ -394,7 +440,9 @@ void tc::calibration(XPT2046_Touchscreen *ts){
     uint16_t x = 0, y = 0;
     tc::_map(&values[i*2  ], &values[i*2+1], &x, &y);
     //tc::_map(&values[i], &values[i+1], &x, &y);
-#ifdef _TFT_eSPIH_
+
+#ifndef TC_DARK_MODE
+if(tft){
     tft->drawCircle(x, y, size*4, TFT_YELLOW);
     
     //tft->setTextFont(2);
@@ -415,8 +463,9 @@ void tc::calibration(XPT2046_Touchscreen *ts){
     tft->setTextColor(TFT_GREEN, TFT_BLACK);
     tft->print(str);
     str[0]='0';
-#else
-  if(Serial){
+}
+#endif /* TC_DARK_MODE */
+
     char str[50] = "";
     snprintf(str, 50, " *corner %d -> REAL: x = %d, y = %d", i+1, x, y);
     Serial.println();
@@ -424,12 +473,9 @@ void tc::calibration(XPT2046_Touchscreen *ts){
     snprintf(str, 50, " *corner %d -> RAW : x = %d, y = %d", i+1, values[i*2  ], values[i*2+1]);
     Serial.println(str);
     str[0]='0';
-  }else{
-#ifdef PIN_PRINT
+#ifdef TC_PIN_MODE
     printToPin(i+1);
-#endif /* Pin-Print */
-  }
-#endif /* TFT_eSPI */
+#endif /* TC_PIN_MODE */
   }
 
 
@@ -494,7 +540,8 @@ void tc::calibration(XPT2046_Touchscreen *ts){
   tc::TC_PARS[3] = tc::cal_y1;
   tc::TC_PARS[4] = tc::cal_rotate | (tc::cal_invert_x <<1) | (tc::cal_invert_y <<2);
 
-#ifdef _TFT_eSPIH_
+#ifndef TC_DARK_MODE
+if(tft){
   tft->setTextColor(TFT_BLUE, TFT_WHITE);
   tft->print(" tc::TC_PARS[5] = { ");
   Serial.print("  uint16_t tc::TC_PARS[5] = { ");
@@ -518,7 +565,9 @@ void tc::calibration(XPT2046_Touchscreen *ts){
   tft->setTextColor(TFT_RED, TFT_WHITE);
   tft->drawCentreString(" [X] ", tc::currW/2, tc::currH/2, 2);
   while(!tc::_validTouch(ts, &x_tmp, &y_tmp, tc::_threshold/2));
-#else
+}
+#endif /* TC_DARK_MODE */
+
   Serial.print("  uint16_t tc::TC_PARS[5] = { ");
   for (uint8_t i = 0; i < 5; i++){
     Serial.print(tc::TC_PARS[i]);
@@ -527,11 +576,9 @@ void tc::calibration(XPT2046_Touchscreen *ts){
     }
   }
   Serial.println(" }");
-#endif /* TFT_eSPI */
 }
 
-#ifdef _TFT_eSPIH_
-
+#ifndef TC_DARK_MODE
 void tc::drawLissajous(XPT2046_Touchscreen *ts, TFT_eSPI *tft) {
   //uint16_t tc::currH = tft->height() - 1, tc::currW = tft->width() - 1;
   tc::setRotation(tc::TC_ROTATION); /* intercambia width y height en base a la rotación. */
@@ -573,6 +620,6 @@ void tc::drawLissajous(XPT2046_Touchscreen *ts, TFT_eSPI *tft) {
   	t+=0.2;
   }
 }
-#endif /* TFT_eSPI */
+#endif /* TC_DARK_MODE */
 
 #endif
