@@ -1,5 +1,5 @@
 /*
-  Ejemplo para la librería de calibración de pantallas táctiles "TouchCal.h".
+  Ejemplo para la librería de calibración de pantallas táctiles "TouchCal.h" v1.1.
   Este ejemplo se ha probado en una board "DOIT ESP32 DevKIT v1" y una TFT-3.2-240x340-SPI.  
   Habría que conectar la estructura de pines definida más abajo.  
 
@@ -14,10 +14,16 @@
 
 #include <Arduino.h>
 
-/* ACTIVAR / DESACTIVAR los distintos modos: GRAPHICS-MODE, DARK-MODE, PIN-MODE */
+/* ACTIVAR / DESACTIVAR defines genéricos para el sketch que controlan los modos de la Touchscreen */
 /* ====================== */
 #define WITH_SERIAL
-#define WITH_TFT
+#define WITH_TFT /* permite GRAPHICS-MODE */
+/* ====================== */
+
+/* ACTIVAR / DESACTIVAR los distintos modos: GRAPHICS-MODE, DARK-MODE, PIN-MODE */
+/* ====================== */
+//#define TC_DARK_MODE
+//#define TC_PIN_MODE
 /* ====================== */
 
 #ifdef WITH_TFT
@@ -99,8 +105,18 @@ void setup() {
 #endif /* WITH_TFT */
 
     /*TouchCal. See the Serial Monitor for the array TC_PARS[5] */
+#ifdef TC_DARK_MODE
+  Serial.print(":DARK-MODE: ");
+#else
+  Serial.print(":GRAPHICS-MODE: ");
+#endif /* TC_DARK_MODE */
+#ifdef TC_PIN_MODE
+  Serial.println("+ :PIN-MODE:");
+#endif /* TC_DARK_MODE */
+  Serial.println("");
+
     //tc::setRotation(tc::TC_ROTATION);
-#ifdef WITH_TFT
+#ifndef TC_DARK_MODE
     tc::calibration(&ts, &tft);
 #else
     tc::calibration(&ts);
@@ -131,7 +147,7 @@ void loop() {
     count++;
     //New Char
     if(count > countMax){
-#ifdef WITH_TFT
+#ifndef TC_DARK_MODE
       tc::drawLissajous(&ts, &tft);
 #endif /* WITH_TFT */
       Serial.print("*");
@@ -140,7 +156,9 @@ void loop() {
     }
     //New Line
     if(count2 > ultraMax){
+#ifdef TC_PIN_MODE
       tc::printToPin(2);
+#endif
       Serial.println("#");
       count2 = 0;
     }

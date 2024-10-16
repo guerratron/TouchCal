@@ -1,11 +1,10 @@
-# <i style="display:none;">TOP</i>  
 > -----------------------------------------------------------------------------------------------------  
 >   [![TouchCal logo](./extras/favicon.ico "TouchCal Github Page")](http://guerratron.github.io/TouchCal "TouchCal Web")  
 > '**TouchCal**' (Arduino Library) &emsp;-&emsp; TouchCal Mini-library for SPI touch screens (XPT2046_Touchscreen) - by GuerraTron24
-> By:  Juan José Guerra Haba - <dinertron@gmail.com> &emsp;-&emsp; Feb, 2023  
+> By:  Juan José Guerra Haba - <dinertron@gmail.com> &emsp;-&emsp; Oct, 2024  
 > Web:     [GrTron.es][authorWeb] , [GuerraTron.github][authorWeb2]  
 > License: Apache + Open GPL v.3. Keep credit, please.   
-> Versión: 1.0.0  
+> Versión: 1.1  
 > Proyect:    Touch-Screen C++ &emsp; Package: TouchCal.h &emsp; Namespace: tc  
 > 
 > ----------------------------------------------------------------------------------------------------  
@@ -22,81 +21,8 @@
 - [🎁 Acknowledgements](#🎁-acknowledgements)
 - [✒️ Sign](#✒️-sign)
 
-<p class="entities" style="display:none;">📋 🔧 ⌨️ ⌨ 🖮  ⚙️ 🚀 📌 ✒️ 🎁  ⎃ ⌂ ☗ 🏠︎ 🏚️ 🏠 ♥ ❤ ❤️ 💖 ★ ⍟ ✨ ⭐ ⭕ 
-〽️ ♯ ☑️ ✔️ ✓ ✗ ✖️ ❌ ❗ ❕ ❓ ❔ ⍰ ⯑ 🛈 ⚠ ⚠️ ⚿ ⛔︎ ⛔ 💣 🎈 🔡 🔣
-‖ ” „ ƒ ∀ ⌬ ∅ ♖ ♜ 🏆︎ 🏆 🎰 🎮 🎖 🎖️ 🏅
-🜉 ⌁ ⭍ 🗲 🗱 ⚡ ⍾ ⏚ ⏛ ⏦ 〰 ♒︎ ☁  ➕ ➖
-⌛︎ ⏳︎ ∵ ⛬ 🝆 ⋙ ⭆ ⟹ ⇨ ⊳ ⌲ ➤ ⬀ 🔝 ∭ ↺ ⮔ 🔄 ∾ ∞ ⋈ ♾ ⊕ ⊚ ⌾ 🞇 ⬤ ⏺ ⚫︎ 🞑 🅢 🆂 Ⓢ 🅂 ╬ ⋮ Ξ π ω Ω ⅏ 🀰 🙼 🙾 
-⛿ ⚐ ⚑ ⛳︎ 🏳️ 🏴 🏷️ ⚒ 🛠 ⚒️ ⚙ ⛯ ⛓ ⛓️ 🔗 ⛶ ⯐ ✉ ✉️ 📧 🌍︎ 🌍 ✎ ❒ 𝄝 𝄜 🎵 ☺ ☻ ☹ 👤 👦 💥 💤
-🜲 🌡 🎚 🎚️ 📷︎ 📷 👁 👁️ 👀 📤︎ 📥︎ 🔓︎ 🔒 🔑 🕨 🕪 🔇 🔈 🔊 🕭 🔔 🔕 🕮 📖 🖋 🖈 📌 📎 📏 🖑 🖫 💾 🗎 📄 🗀 🗁 🗑 🗓 📆 📅 
-📟 🗗 🗠 📈 📊 🗩 💬 📦 💯 🔋 🔎</p>
-<style>
-    blockquote{
-        text-align: center;
-    }
-    .info{
-        background:lightBlue;
-        color: #333333;
-    }
-    .alert{
-        border-radius: 6px;
-        font-size: 0.6em;
-        color: blue;
-        background: navajoWhite;
-        padding: 10px;
-    }
-    .green{
-        color: navy;
-        background: lightGreen;
-    }
-    .preview{
-        width: 100%;
-        cursor: pointer;
-    }
-    .mini-preview{
-        width: 25%;
-        cursor: pointer;
-    }
-    .bg-SERVICER{
-        border-radius: 10px;
-        padding: 5px;
-        margin: 5px;
-        color: lightBlue;
-        background: navy;
-    }
-    .bg-SERVICER>ul>li>i, .bg-FREEDER>ul>li>i{
-        background-color: lemonchiffon;
-        color: red;
-        padding: 0 4px;
-        margin-right: 5px;
-        line-height: 1.3em;
-    }
-    .bg-FREEDER{
-        border-radius: 10px;
-        padding: 5px;
-        margin: 5px;
-        color: lime;
-        background: darkgreen;
-    }
-    .float-left{
-        float: left;
-    }
-    .clearfix{
-        clear: both;
-    }
-    .small{
-        font-size: x-small;
-        color: gray;
-    }
-    h1{
-        text-align:center;
-    }
-    h2>span{
-        float:left;
-    }
-</style>
 
-# ![TouchCal logo](./extras/logo.png "logo") TouchCal v1.0 <span class="small">by [GuerraTron-24][authorEmail]</span>
+# ![TouchCal logo](./extras/logo.png "logo") TouchCal v1.1 <span class="small">by [GuerraTron-24][authorEmail]</span>
 
 ## 📋-Intro
 
@@ -119,7 +45,7 @@ not supposed to be a user library in the usual sense, but rather a tool for the 
 will surely inhibit it when the debugging is finished.
 
 
-## 🔧-Uso
+## 🔧-Use
 
  The main function would be *"calibration(..)"* which takes as parameters (POINTERS) the touchscreen and the screen (if available),
 as well as colors and sizes for the corner arrows (just like *"TFT_eSPI::calibrateTouch(..)"*).
@@ -149,7 +75,7 @@ previously define some definitions used by the *"TFT_eSPI"* library (dimensions 
 ATTENTION: Define the rotation to be used with the screen and the touch in *TC_ROTATION* (from 0 to 3)
  
 
-## ✨-Mejoras
+## ✨-Improvements
 Future improvements are planned in later versions, perhaps more drivers and support for more screens, new functions, perhaps change from *namespace* to *class*, separation into source files and header, ... Future improvements are planned in later versions, perhaps more drivers and support for more screens, new functions, perhaps change from *namespace* to *class*,
 separation into source files and header, ...
  
@@ -158,25 +84,22 @@ It has only been tested on a board with **ESP32** (*DOIT ESP32 DevKIT v1*) and  
 ## ⌨️-Preview
 ![TouchCal Preview 1](./extras/preview.png "preview")
 ![TouchCal Preview 2](./extras/preview2.png "preview2")
-<blockquote>
-<img class="mini-preview" src="./preview.png" title="click for preview" onclick="this.classList.toggle('mini-preview'); this.classList.toggle('preview');" />
-</blockquote>
 
-## 💣-Correcciones
+## 💣-Fixs
 TODO: Code improvement and refactoring, bug fixes, ..
 EVERYTHING HAS BEEN IMPLEMENTED IN A SINGLE ".H" HEADER FILE DUE TO NUMEROUS PROBLEMS IN THE "LINKER" WHEN SEPARATING IT INTO ".cpp" FILES
 
-## 🔗-Dependencias
+## 🔗-Depends
 It has a direct dependency on **"XPT2046_Touchscreen"**  
 Although it does NOT have a DIRECT DEPENDENCE on *"TFT_eSPI"* (you can work without that "wonderful utility") the truth is that the experience improves quite a bit with it.
 
-### 🌍-Fuentes
+### 🌍-Sources
 [TFT_eSPI](https://github.com/Bodmer/TFT_eSPI) de *Bodmer*,  
 [XPT2046_Touchscreen](https://github.com/PaulStoffregen/XPT2046_Touchscreen) de *Paul Stoffregen*,  
-https://forum.arduino.cc/, ..
+<https://forum.arduino.cc/>, ..
 
-### 🎁-Agradecimientos
-Many thanks to all those who make free code for developing super useful tools for everyone; this time also to Microsoft for its <abbr title="Visual Studio Code">VSC</abbr>, 
+### 🎁-Acknowledgements
+Many thanks to *Bodmer*, *Paul Stoffregen*, and all those who make free code for developing super useful tools for everyone; this time also to Microsoft for its <abbr title="Visual Studio Code">VSC</abbr>, 
 without this tool the creation of the library would have been impossible.  
 .. and in general to all the altruistic world that generates code and makes it open-source. Also to the world of **Arduino** and open-hardware.
 
@@ -186,7 +109,7 @@ Enjoy using it. I hope someone finds it as useful as I did.
 2024 - ![TouchCal logo](./extras/toroBot.png "GuerraTron-Bot") [GuerraTron-24][authorEmail] &reg; [GuerraTron Github][authorWeb2]
 
 ---
-⌨️ con ❤️ por [Juan José Guerra][GuerraTron-Github] 😊
+⌨️ with ❤️ by [Juan José Guerra][GuerraTron-Github] 😊
 
 [<b style="font-size:xx-large; margin-left:50%;">🔝</b>](#top)
 
