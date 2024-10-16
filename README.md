@@ -1,10 +1,10 @@
 > -----------------------------------------------------------------------------------------------------  
 >   [![TouchCal logo](./extras/favicon.ico "TouchCal Github Page")](http://guerratron.github.io/TouchCal "TouchCal Web")  
 > '**TouchCal**' (Arduino Library) &emsp;-&emsp; TouchCal Mini-library for SPI touch screens (XPT2046_Touchscreen) - by GuerraTron24
-> By:  Juan José Guerra Haba - <dinertron@gmail.com> &emsp;-&emsp; Feb, 2023  
+> By:  Juan José Guerra Haba - <dinertron@gmail.com> &emsp;-&emsp; Oct, 2024  
 > Web:     [GrTron.es][authorWeb] , [GuerraTron.github][authorWeb2]  
 > License: Apache + Open GPL v.3. Keep credit, please.   
-> Versión: 1.0.0  
+> Versión: 1.0.1  
 > Proyect:    Touch-Screen C++ &emsp; Package: TouchCal.h &emsp; Namespace: tc  
 > 
 > ----------------------------------------------------------------------------------------------------  
@@ -22,7 +22,7 @@
 - [✒️ Sign](#✒️-sign)
 
 
-# ![TouchCal logo](./extras/logo.png "logo") TouchCal v1.0 <span class="small">by [GuerraTron-24][authorEmail]</span>
+# ![TouchCal logo](./extras/logo.png "logo") TouchCal v1.0.1 <span class="small">by [GuerraTron-24][authorEmail]</span>
 
 ## 📋-Intro
 
